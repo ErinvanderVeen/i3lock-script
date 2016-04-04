@@ -1,0 +1,21 @@
+#!/bin/bash
+
+fscrn=$(mktemp --tmpdir temp.png)
+
+# Take screenshot
+scrot $fscrn
+# Lock icon
+LOCK="/home/erin/.config/i3/lock.png"
+
+# Text to display
+TEXT="Type password to unlock"
+
+# Create background image
+convert $fscrn -level 0%,100%,0.6 -filter Gaussian -resize 20% -define filter:sigma=1.5 -resize 500.5% -font Liberation-Sans -pointsize 26 -fill white -gravity center -annotate +0+160 "$TEXT" $LOCK -gravity center -composite $fscrn
+
+# Call i3lock
+i3lock -fi $fscrn
+
+# Remove temp file
+rm $fscrn
+
